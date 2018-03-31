@@ -5,9 +5,6 @@
 # ${CMAKE_CGAL_BINARY_DIR} or ${CMAKE_CGAL_BINARY_DIR}.
 project(CGAL CXX C)
 
-# Minimal version of CMake:
-cmake_minimum_required(VERSION 2.8.11)
-
 # Tested version:
 cmake_policy(VERSION 2.8.11)
 
@@ -46,17 +43,17 @@ include(GNUInstallDirs)
 #                                    -= HEADER ONLY =-
 #
 #--------------------------------------------------------------------------------------------------
-if(CMAKE_MAJOR_VERSION GREATER 2)
-  # In header only mode, we use INTERFACE libraries, which was introduced in cmake 3.0.
-  # Thus this option is only enabled for cmake >= 3.0.
-  option(CGAL_HEADER_ONLY "Enable the header only version of CGAL" OFF )
 
-  if (CGAL_HEADER_ONLY)
-    set(CGAL_HEADER_ONLY TRUE CACHE BOOL "Enable cgal header only" FORCE)
-    add_definitions(-DCGAL_HEADER_ONLY)
-  endif (CGAL_HEADER_ONLY)
+# In header only mode, we use INTERFACE libraries, which was introduced in cmake 3.0.
+# Thus this option is only enabled for cmake >= 3.0.
+option(CGAL_HEADER_ONLY "Enable the header only version of CGAL" OFF )
 
-endif()
+if (CGAL_HEADER_ONLY)
+  set(CGAL_HEADER_ONLY TRUE CACHE BOOL "Enable cgal header only" FORCE)
+  add_definitions(-DCGAL_HEADER_ONLY)
+endif (CGAL_HEADER_ONLY)
+
+
 
 #--------------------------------------------------------------------------------------------------
 #
@@ -157,6 +154,7 @@ if ( CGAL_BRANCH_BUILD )
   file(STRINGS "${CGAL_MAINTENANCE_PACKAGE_DIR}/release_building/MAJOR_NUMBER" CGAL_MAJOR_VERSION REGEX "[0-9]*")
   file(STRINGS "${CGAL_MAINTENANCE_PACKAGE_DIR}/release_building/MINOR_NUMBER" CGAL_MINOR_VERSION REGEX "[0-9]*")
   file(STRINGS "${CGAL_MAINTENANCE_PACKAGE_DIR}/release_building/BUGFIX_NUMBER" CGAL_BUGFIX_VERSION REGEX "[0-9]*")
+  set(CGAL_VERSION ${CGAL_MAJOR_VERSION}.${CGAL_MINOR_VERSION}.${CGAL_BUGFIX_VERSION})
 
   file(REMOVE ${CMAKE_CGAL_BINARY_DIR}/VERSION)
   if (CGAL_BUGFIX_VERSION AND CGAL_BUGFIX_VERSION GREATER 0)  
@@ -789,6 +787,7 @@ set(CGAL_INCLUDE_DIRS ${CMAKE_CGAL_BINARY_DIR}/include)
 foreach (package ${CGAL_CONFIGURED_PACKAGES})
   set(CGAL_INCLUDE_DIRS ${CGAL_INCLUDE_DIRS} ${package}/include)
 endforeach()
+set_property(GLOBAL PROPERTY CGAL_INCLUDE_DIRS "${CGAL_INCLUDE_DIRS}")
 
 include_directories (${CGAL_INCLUDE_DIRS})
 
