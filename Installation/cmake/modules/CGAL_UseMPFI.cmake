@@ -12,7 +12,7 @@ if( MPFI_FOUND AND NOT MPFI_SETUP )
 
     try_run( MPFI_TEST_RESULT
              COMPILED_MPFI_TEST
-             "${CMAKE_BINARY_DIR}"
+             "${CMAKE_CGAL_BINARY_DIR}"
              "${CGAL_MODULES_DIR}/test_MPFI.cpp"
              CMAKE_FLAGS
                 "-DINCLUDE_DIRECTORIES:

@@ -161,7 +161,7 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
 
       try_run( ${LIB}_RUN_RES
                ${LIB}_COMPILE_RES
-               "${CMAKE_BINARY_DIR}"
+               "${CMAKE_CGAL_BINARY_DIR}"
                "${CGAL_INSTALLATION_PACKAGE_DIR}/config/support/print_${LIB}_version.cpp"
                CMAKE_FLAGS "-DINCLUDE_DIRECTORIES:STRING=${${PKG}_INCLUDE_DIR};${${PKG}_DEPENDENCY_INCLUDE_DIR}"
                            "-DLINK_LIBRARIES:STRING=${${PKG}_LIBRARIES};${${PKG}_DEPENDENCY_LIBRARIES}"
@@ -412,14 +412,14 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
   macro( create_CGALconfig_files )
 
     # CGALConfig.cmake is platform specific so it is generated and stored in the binary folder.
-    configure_file("${CGAL_MODULES_DIR}/CGALConfig_binary.cmake.in"  "${CMAKE_BINARY_DIR}/CGALConfig.cmake"        @ONLY)
+    configure_file("${CGAL_MODULES_DIR}/CGALConfig_binary.cmake.in"  "${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake"        @ONLY)
 
     # There is also a version of CGALConfig.cmake that is prepared in case CGAL in installed in CMAKE_INSTALL_PREFIX.
-    configure_file("${CGAL_MODULES_DIR}/CGALConfig_install.cmake.in" "${CMAKE_BINARY_DIR}/config/CGALConfig.cmake" @ONLY)
+    configure_file("${CGAL_MODULES_DIR}/CGALConfig_install.cmake.in" "${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake" @ONLY)
 
     #write prefix exceptions
-    file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "${SPECIAL_PREFIXES}\n")
-    file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "${SPECIAL_PREFIXES}")
+    file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "${SPECIAL_PREFIXES}\n")
+    file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "${SPECIAL_PREFIXES}")
 
      foreach( lib ${CGAL_SUPPORTING_3RD_PARTY_LIBRARIES} )
 
@@ -429,23 +429,23 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
 
          set (vlib ${CGAL_EXT_LIB_${lib}_PREFIX} )
          #the next 'if' is needed to avoid ${vlib} config variables to be overidden in case of a local configuration change
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "if (NOT CGAL_IGNORE_PRECONFIGURED_${lib})\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_FOUND           \"${${vlib}_FOUND}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_USE_FILE        \"${${vlib}_USE_FILE}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_INCLUDE_DIR     \"${${vlib}_INCLUDE_DIR}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_LIBRARIES       \"${${vlib}_LIBRARIES}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_DEFINITIONS     \"${${vlib}_DEFINITIONS}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/CGALConfig.cmake "endif()\n\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "if (NOT CGAL_IGNORE_PRECONFIGURED_${lib})\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_FOUND           \"${${vlib}_FOUND}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_USE_FILE        \"${${vlib}_USE_FILE}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_INCLUDE_DIR     \"${${vlib}_INCLUDE_DIR}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_LIBRARIES       \"${${vlib}_LIBRARIES}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "  set( ${vlib}_DEFINITIONS     \"${${vlib}_DEFINITIONS}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/CGALConfig.cmake "endif()\n\n")
 
 
          #the next 'if' is needed to avoid ${vlib} config variables to be overidden in case of a local configuration change
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "if (NOT CGAL_IGNORE_PRECONFIGURED_${lib})\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_FOUND           \"${${vlib}_FOUND}\")\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_USE_FILE        \"${${vlib}_USE_FILE}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_INCLUDE_DIR     \"${${vlib}_INCLUDE_DIR}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_LIBRARIES       \"${${vlib}_LIBRARIES}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_DEFINITIONS     \"${${vlib}_DEFINITIONS}\" )\n")
-         file( APPEND ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake "endif()\n\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "if (NOT CGAL_IGNORE_PRECONFIGURED_${lib})\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_FOUND           \"${${vlib}_FOUND}\")\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_USE_FILE        \"${${vlib}_USE_FILE}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_INCLUDE_DIR     \"${${vlib}_INCLUDE_DIR}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_LIBRARIES       \"${${vlib}_LIBRARIES}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "  set( ${vlib}_DEFINITIONS     \"${${vlib}_DEFINITIONS}\" )\n")
+         file( APPEND ${CMAKE_CGAL_BINARY_DIR}/config/CGALConfig.cmake "endif()\n\n")
        endif()
 
      endforeach()
@@ -667,13 +667,13 @@ function(process_CGAL_subdirectory entry subdir type_name)
   # For example, subdir can be "examples", type_name "example", and entry "Mesh_2"
 
   if ( CGAL_BRANCH_BUILD )
-    string( REGEX REPLACE "${CMAKE_SOURCE_DIR}/.*/${subdir}/" "" ENTRY_DIR_NAME "${entry}" )
+    string( REGEX REPLACE "${CMAKE_CGAL_SOURCE_DIR}/.*/${subdir}/" "" ENTRY_DIR_NAME "${entry}" )
   else()
     string( REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" ENTRY_DIR_NAME "${entry}" )
   endif()
 
-  if( NOT "${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}") # out-of-source
-    make_directory("${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
+  if( NOT "${CMAKE_CGAL_SOURCE_DIR}" STREQUAL "${CMAKE_CGAL_BINARY_DIR}") # out-of-source
+    make_directory("${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
   endif()
 
   set(ADD_SUBDIR TRUE)
@@ -696,17 +696,17 @@ function(process_CGAL_subdirectory entry subdir type_name)
   if(ADD_SUBDIR)
     message("\n-- Configuring ${subdir} in ${subdir}/${ENTRY_DIR_NAME}")
     if(EXISTS ${entry}/CMakeLists.txt)
-      add_subdirectory( ${entry} ${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME} )
+      add_subdirectory( ${entry} ${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME} )
     else()
       if(CGAL_CREATE_CMAKE_SCRIPT)
 #        message("bah ${CGAL_CREATE_CMAKE_SCRIPT} ${type_name} --source_dir ${entry}")
         execute_process(
           COMMAND bash ${CGAL_CREATE_CMAKE_SCRIPT} ${type_name} --source_dir "${entry}"
-          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}"
+          WORKING_DIRECTORY "${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}"
           RESULT_VARIABLE RESULT_VAR OUTPUT_QUIET)
         if(NOT RESULT_VAR)
-#          message("Subdir ${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
-          add_subdirectory( "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}" "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
+#          message("Subdir ${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
+          add_subdirectory( "${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}" "${CMAKE_CGAL_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
         endif()
       endif()
     endif()

@@ -34,7 +34,7 @@ MACRO(CHECK_CXX_FILE_RUNS FILE VAR TEST)
   # Try to compile and run the test
   #MESSAGE(STATUS "Performing Test ${TEST}")
   TRY_RUN(${VAR} ${VAR}_COMPILED
-          "${CMAKE_BINARY_DIR}"
+          "${CMAKE_CGAL_BINARY_DIR}"
           "${FILE}"
           COMPILE_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS}
           CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_FUNCTION_DEFINITIONS}
@@ -51,14 +51,14 @@ MACRO(CHECK_CXX_FILE_RUNS FILE VAR TEST)
   if("${result_var}" EQUAL 0)
     SET(${VAR} 1 CACHE INTERNAL "Test ${TEST}" FORCE )
     MESSAGE(STATUS "Performing Test ${TEST} - Success")
-    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
+    FILE(APPEND ${CMAKE_CGAL_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Performing C++ SOURCE FILE Test ${TEST} succeded with the following output:\n"
       "${OUTPUT}\n"
       "Source file was:\n${SOURCE}\n")
   else()
     MESSAGE(STATUS "Performing Test ${TEST} - Failed")
     SET(${VAR} "" CACHE INTERNAL "Test ${TEST}" FORCE )
-    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+    FILE(APPEND ${CMAKE_CGAL_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Performing C++ SOURCE FILE Test ${TEST} failed with the following output:\n"
       "${OUTPUT}\n"
       "Return value: ${result_var}\n"

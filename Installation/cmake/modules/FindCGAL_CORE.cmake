@@ -35,12 +35,12 @@ if(GMP_FOUND)
       # We cannot search for the cgal-core library because it is not yet compiled
       # => hard code the name
       if (WIN32)
-        set(CGAL_CORE_LIBRARY ${CMAKE_BINARY_DIR}/lib/${CGAL_CORE_BASENAME}.lib)
+        set(CGAL_CORE_LIBRARY ${CMAKE_CGAL_BINARY_DIR}/lib/${CGAL_CORE_BASENAME}.lib)
       else()
         if(BUILD_SHARED_LIBS)
-          set(CGAL_CORE_LIBRARY ${CMAKE_BINARY_DIR}/lib/lib${CGAL_CORE_BASENAME}.so)
+          set(CGAL_CORE_LIBRARY ${CMAKE_CGAL_BINARY_DIR}/lib/lib${CGAL_CORE_BASENAME}.so)
         else(BUILD_SHARED_LIBS)
-          set(CGAL_CORE_LIBRARY ${CMAKE_BINARY_DIR}/lib/lib${CGAL_CORE_BASENAME}.a)
+          set(CGAL_CORE_LIBRARY ${CMAKE_CGAL_BINARY_DIR}/lib/lib${CGAL_CORE_BASENAME}.a)
         endif(BUILD_SHARED_LIBS)
       endif()
       
