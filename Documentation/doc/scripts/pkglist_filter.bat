@@ -13,6 +13,6 @@ if not errorlevel 1 ( set python=python2.6 )
 if not errorlevel 1 ( set python=python2.7 )
 
 :go
-%python% ${CMAKE_BINARY_DIR}/pkglist_filter.py %1
+%python% ${CMAKE_CGAL_BINARY_DIR}/pkglist_filter.py %1
 
 @echo on

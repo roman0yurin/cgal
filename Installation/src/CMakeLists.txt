@@ -93,10 +93,10 @@ function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
 
   # We have to call configure_file twice to force double expansion of variables.
   configure_file("${CGAL_MODULES_DIR}/CGALLibConfig.cmake.in"
-    "${CMAKE_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" @ONLY)
-  configure_file("${CMAKE_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake"
-    "${CMAKE_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" @ONLY)
-  install(FILES "${CMAKE_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" DESTINATION ${CGAL_INSTALL_CMAKE_DIR})
+    "${CMAKE_CGAL_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" @ONLY)
+  configure_file("${CMAKE_CGAL_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake"
+    "${CMAKE_CGAL_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" @ONLY)
+  install(FILES "${CMAKE_CGAL_BINARY_DIR}/${LIBRARY_NAME}LibConfig.cmake" DESTINATION ${CGAL_INSTALL_CMAKE_DIR})
 
 endfunction()
 
@@ -109,13 +109,13 @@ function( configure_component DIR COMPONENT )
 endfunction()
 
 # Output directory of libraries (.so, .dylib, non-static .lib)
-set(CGAL_LIBRARIES_DIR ${CMAKE_BINARY_DIR}/lib)
+set(CGAL_LIBRARIES_DIR ${CMAKE_CGAL_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CGAL_LIBRARIES_DIR})
 # Output directory of static libraries (.a, static .lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CGAL_LIBRARIES_DIR})
 
 # For output directory of DLLs (.dll files)
-set(CGAL_RUNTIME_DIR ${CMAKE_BINARY_DIR}/bin)
+set(CGAL_RUNTIME_DIR ${CMAKE_CGAL_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CGAL_RUNTIME_DIR})
 
 ## Prevent use of intermediate directory with MSVC, because we use name
@@ -133,7 +133,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CGAL_RUNTIME_DIR})
 #       Should probably be removed. -- Laurent Rineau, 2014/07/22
 create_CGALconfig_files()
 
-set(CGAL_DIR ${CMAKE_BINARY_DIR})
+set(CGAL_DIR ${CMAKE_CGAL_BINARY_DIR})
 
 add_subdirectory(CGAL)
 
@@ -210,7 +210,7 @@ CGAL_add_if_target(CGAL_ImageIO)
 CGAL_add_if_target(CGAL_Qt5)
 
 # if (NOT CGAL_HEADER_ONLY)
-  export(TARGETS ${CGAL_ACTUAL_CONFIGURED_LIBRARIES} NAMESPACE CGAL:: FILE "${CMAKE_BINARY_DIR}/CGALExports.cmake")
+  export(TARGETS ${CGAL_ACTUAL_CONFIGURED_LIBRARIES} NAMESPACE CGAL:: FILE "${CMAKE_CGAL_BINARY_DIR}/CGALExports.cmake")
 # endif()
 
 message(STATUS "Sources for CGAL component libraries '${CGAL_CONFIGURED_LIBRARIES}' detected")

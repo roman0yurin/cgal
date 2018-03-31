@@ -1,4 +1,4 @@
-include_directories(${CMAKE_SOURCE_DIR}/src/)
+include_directories(${CMAKE_CGAL_SOURCE_DIR}/src/)
 
 file(GLOB_RECURSE SRCS ./*.cpp)
 file(GLOB_RECURSE HDRS ./*.h)

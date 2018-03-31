@@ -6,7 +6,7 @@ if( NOT CGAL_SCM_FILE_INCLUDED )
 # build system or not
 
 # TODO: make that scm agnostic and turn it into a boolean
-set(GIT_PARENT_DIR "${CMAKE_SOURCE_DIR}")
+set(GIT_PARENT_DIR "${CMAKE_CGAL_SOURCE_DIR}")
 set(GIT_DIR "${GIT_PARENT_DIR}/.git")
 if (EXISTS "${GIT_DIR}")
   set( CGAL_SCM_NAME "git" )

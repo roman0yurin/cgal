@@ -7,7 +7,7 @@ if ( NOT CGAL_Boost_Setup )
     set ( CGAL_requires_Boost_libs FALSE )
   else()
     try_run( CGAL_test_cpp_version_RUN_RES CGAL_test_cpp_version_COMPILE_RES
-      "${CMAKE_BINARY_DIR}"
+      "${CMAKE_CGAL_BINARY_DIR}"
       "${CGAL_INSTALLATION_PACKAGE_DIR}/config/support/CGAL_test_cpp_version.cpp"
       RUN_OUTPUT_VARIABLE CGAL_cplusplus)
     message(STATUS "__cplusplus is ${CGAL_cplusplus}")

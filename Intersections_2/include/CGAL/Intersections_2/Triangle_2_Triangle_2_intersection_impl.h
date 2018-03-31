@@ -21,7 +21,7 @@
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
-
+#pragma once
 #include <CGAL/Segment_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Line_2.h>

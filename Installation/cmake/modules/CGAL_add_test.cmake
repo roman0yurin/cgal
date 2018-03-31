@@ -85,7 +85,7 @@ function(cgal_add_test exe_name)
   set_property(TEST "${exe_name}"
     PROPERTY WORKING_DIRECTORY ${CGAL_CURRENT_SOURCE_DIR})
   add_test(NAME "build_target_${exe_name}"
-    COMMAND "${CMAKE_COMMAND}" --build "${CMAKE_BINARY_DIR}" --target "${exe_name}")
+    COMMAND "${CMAKE_COMMAND}" --build "${CMAKE_CGAL_BINARY_DIR" --target "${exe_name}")
   set_property(TEST "build_target_${exe_name}"
     APPEND PROPERTY LABELS "${PROJECT_NAME}")
   set_property(TEST "${exe_name}"

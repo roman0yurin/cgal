@@ -4,16 +4,16 @@ project(Documentation NONE)
 cmake_minimum_required(VERSION 2.8.11)
 
 # Check whether this cmake script is the top level one
-if ( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+if ( ${CMAKE_CGAL_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
   # decide if this is a branch build
-  if ( NOT EXISTS "${CMAKE_SOURCE_DIR}/../VERSION")
+  if ( NOT EXISTS "${CMAKE_CGAL_SOURCE_DIR/../VERSION")
     set(CGAL_BRANCH_BUILD ON CACHE INTERNAL "CGAL Branch build")
   endif()
 
   if (CGAL_BRANCH_BUILD)
-    set(CGAL_ROOT "${CMAKE_SOURCE_DIR}/../..")
+    set(CGAL_ROOT "${CMAKE_CGAL_SOURCE_DIR/../..")
   else()
-    set(CGAL_ROOT "${CMAKE_SOURCE_DIR}/..")
+    set(CGAL_ROOT "${CMAKE_CGAL_SOURCE_DIR/..")
   endif()
   get_filename_component(CGAL_ROOT ${CGAL_ROOT} REALPATH)
 else()
@@ -21,7 +21,7 @@ else()
   if(NOT BUILD_DOC)
     return()
   endif()
-  set(CGAL_ROOT "${CMAKE_SOURCE_DIR}")
+  set(CGAL_ROOT "${CMAKE_CGAL_SOURCE_DIR")
 endif()
 
 find_package(Doxygen)
@@ -188,23 +188,23 @@ endfunction()
 set(CGAL_DOC_MATHJAX_LOCATION "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2"
     CACHE STRING "The location of MathJax to be used for the documentation.")
 
-set(CGAL_DOC_OUTPUT_DIR "${CMAKE_BINARY_DIR}/doc_output")
+set(CGAL_DOC_OUTPUT_DIR "${CMAKE_CGAL_BINARY_DIR}/doc_output")
 file(MAKE_DIRECTORY "${CGAL_DOC_OUTPUT_DIR}")
 
 option(CGAL_DOC_CREATE_LOGS "Write log files or print warnings and errors to cerr when building the doc." OFF)
 
 if(CGAL_DOC_CREATE_LOGS)
-  set(CGAL_DOC_LOG_DIR "${CMAKE_BINARY_DIR}/doc_log")
+  set(CGAL_DOC_LOG_DIR "${CMAKE_CGAL_BINARY_DIR}/doc_log")
   file(MAKE_DIRECTORY "${CGAL_DOC_LOG_DIR}")
 endif()
 
 #we use two directories for the generation/reading of tag files to prevent issues
 #if the targets are built in parallel
-set(CGAL_DOC_TAG_GEN_DIR "${CMAKE_BINARY_DIR}/doc_gen_tags")
+set(CGAL_DOC_TAG_GEN_DIR "${CMAKE_CGAL_BINARY_DIR}/doc_gen_tags")
 file(MAKE_DIRECTORY "${CGAL_DOC_TAG_GEN_DIR}")
-set(CGAL_DOC_TAG_DIR "${CMAKE_BINARY_DIR}/doc_tags")
+set(CGAL_DOC_TAG_DIR "${CMAKE_CGAL_BINARY_DIR}/doc_tags")
 file(MAKE_DIRECTORY "${CGAL_DOC_TAG_DIR}")
-set(CGAL_DOC_DXY_DIR "${CMAKE_BINARY_DIR}/doc_dxy")
+set(CGAL_DOC_DXY_DIR "${CMAKE_CGAL_BINARY_DIR}/doc_dxy")
 file(MAKE_DIRECTORY "${CGAL_DOC_DXY_DIR}")
 
 #Setting the resource directory depending on the version of doxygen
@@ -267,16 +267,16 @@ if(PYTHONINTERP_FOUND)
   execute_process(COMMAND ${PYTHON_EXECUTABLE}
                           ${CGAL_DOC_SCRIPT_DIR}/generate_how_to_cite.py
                           ${CGAL_ROOT}
-                          ${CMAKE_BINARY_DIR}
+                          ${CMAKE_CGAL_BINARY_DIR
                           "${CGAL_BRANCH_BUILD}"
                   RESULT_VARIABLE GENERATE_HOW_TO_CITE_RESULT)
   if(NOT GENERATE_HOW_TO_CITE_RESULT EQUAL "0")
     message(FATAL_ERROR "generate_how_to_cite did not exit correctly")
   endif()
 
-  configure_file(${CMAKE_BINARY_DIR}/how_to_cite_cgal.bib.in ${CMAKE_BINARY_DIR}/how_to_cite_cgal.bib)
-  configure_file(${CMAKE_BINARY_DIR}/how_to_cite_cgal.txt.in ${CMAKE_BINARY_DIR}/how_to_cite_cgal.txt)
-  configure_file(${CMAKE_BINARY_DIR}/how_to_cite.html.in ${CMAKE_BINARY_DIR}/how_to_cite.html)
+  configure_file(${CMAKE_CGAL_BINARY_DIR}/how_to_cite_cgal.bib.in ${CMAKE_CGAL_BINARY_DIR}/how_to_cite_cgal.bib)
+  configure_file(${CMAKE_CGAL_BINARY_DIR}/how_to_cite_cgal.txt.in ${CMAKE_CGAL_BINARY_DIR}/how_to_cite_cgal.txt)
+  configure_file(${CMAKE_CGAL_BINARY_DIR}/how_to_cite.html.in ${CMAKE_CGAL_BINARY_DIR}/how_to_cite.html)
 endif()
 
 configure_file(${CGAL_DOC_RESOURCE_DIR}/BaseDoxyfile.in ${CGAL_DOC_DXY_DIR}/BaseDoxyfile)
@@ -286,10 +286,10 @@ set(CGAL_DOC_DOXY_DEFAULT "${CGAL_DOC_DXY_DIR}/BaseDoxyfile")
 # pkglist_filter gets the path to the pkglist_filter of this source
 # directory.
 if(WIN32)
-  configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter.bat ${CMAKE_BINARY_DIR}/pkglist_filter.bat)
+  configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter.bat ${CMAKE_CGAL_BINARY_DIR}/pkglist_filter.bat)
 endif()
-configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter ${CMAKE_BINARY_DIR}/pkglist_filter)
-configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter.py ${CMAKE_BINARY_DIR}/pkglist_filter.py)
+configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter ${CMAKE_CGAL_BINARY_DIR}/pkglist_filter)
+configure_file(${CGAL_DOC_SCRIPT_DIR}/pkglist_filter.py ${CMAKE_CGAL_BINARY_DIR}/pkglist_filter.py)
 
 set(CGAL_DOC_PACKAGES "")
 if(CGAL_BRANCH_BUILD)

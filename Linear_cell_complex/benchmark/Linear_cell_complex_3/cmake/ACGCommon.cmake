@@ -1,12 +1,12 @@
-if (EXISTS ${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.cmake)
-  include (${CMAKE_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.cmake)
+if (EXISTS ${CMAKE_CGAL_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.cmake)
+  include (${CMAKE_CGAL_SOURCE_DIR}/${CMAKE_PROJECT_NAME}.cmake)
 endif ()
 
 # prevent build in source directory
-if ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+if ("${CMAKE_CGAL_BINARY_DIR}" STREQUAL "${CMAKE_CGAL_SOURCE_DIR}")
     message (SEND_ERROR "Building in the source directory is not supported.")
     message (FATAL_ERROR "Please remove the created \"CMakeCache.txt\" file, the \"CMakeFiles\" directory and create a build directory and call \"${CMAKE_COMMAND} <path to the sources>\".")
-endif ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+endif ("${CMAKE_CGAL_BINARY_DIR}" STREQUAL "${CMAKE_CGAL_SOURCE_DIR}")
 
 # allow only Debug and Release builds
 set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
@@ -20,8 +20,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 # create our output directroy
-if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build)
-  file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build)
+if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build)
+  file (MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build)
 endif ()
 
 # read version from file
@@ -71,8 +71,8 @@ if (WIN32)
   set (ACG_PROJECT_LIBDIR "lib")
   set (ACG_PROJECT_BINDIR ".")
   set (ACG_PROJECT_PLUGINDIR "Plugins")
-  if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR})
-    file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR})
+  if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR})
+    file (MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR})
   endif ()
 else ()
   set (ACG_PROJECT_DATADIR "share/${CMAKE_PROJECT_NAME}")
@@ -95,8 +95,8 @@ if (COMMAND acg_modify_project_dirs)
   acg_modify_project_dirs ()
 endif ()
 
-if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR})
- file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR})
+if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR})
+ file (MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR})
 endif ()
 
 
@@ -123,8 +123,8 @@ macro (acg_set_target_props target)
       INSTALL_RPATH "$ORIGIN/../lib/${CMAKE_PROJECT_NAME}"
       BUILD_WITH_INSTALL_RPATH 1
       SKIP_BUILD_RPATH 0
-      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}"
-      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}"
+      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}"
+      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}"
     )
   endif ()
 endmacro ()
@@ -386,13 +386,13 @@ function (acg_add_executable _target)
                         COMMAND ${CMAKE_COMMAND} -E
                         copy_if_different
                           ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${_target}.exe
-                          ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target}.exe)
+                          ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target}.exe)
   elseif (APPLE AND NOT ACG_PROJECT_MACOS_BUNDLE)
     add_custom_command (TARGET ${_target} POST_BUILD
                         COMMAND ${CMAKE_COMMAND} -E
                         copy_if_different
                           ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${_target}
-                          ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target})
+                          ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target})
   endif ()
   if (NOT ACG_PROJECT_MACOS_BUNDLE OR NOT APPLE)
     install (TARGETS ${_target} DESTINATION ${ACG_PROJECT_BINDIR})
@@ -441,23 +441,23 @@ function (acg_add_library _target _libtype)
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${_target}.dll
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target}.dll)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_BINDIR}/${_target}.dll)
     elseif (${_type} STREQUAL MODULE)
-      if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
-        file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
+      if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
+        file (MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
       endif ()
       add_custom_command (TARGET ${_target} POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${_target}.dll
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR}/${_target}.dll)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR}/${_target}.dll)
     endif ()
     if (${_type} STREQUAL SHARED OR ${_type} STREQUAL STATIC)
       add_custom_command (TARGET ${_target} POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${_target}.lib
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/${_target}.lib)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/${_target}.lib)
     endif ()
   elseif (APPLE AND NOT ACG_PROJECT_MACOS_BUNDLE)
     if (${_type} STREQUAL SHARED)
@@ -465,29 +465,29 @@ function (acg_add_library _target _libtype)
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${_target}.dylib
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.dylib)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.dylib)
     elseif (${_type} STREQUAL MODULE)
-      if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
-        file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
+      if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
+        file (MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR})
       endif ()
       add_custom_command (TARGET ${_target} POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${_target}.so
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR}/lib${_target}.so)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_PLUGINDIR}/lib${_target}.so)
     elseif (${_type} STREQUAL STATIC)
       add_custom_command (TARGET ${_target} POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${_target}.a
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
     endif ()
     if (_and_static)
       add_custom_command (TARGET ${_target}Static POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${_target}Static.a
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
     endif ()
 
   elseif (NOT APPLE AND _and_static)
@@ -495,7 +495,7 @@ function (acg_add_library _target _libtype)
                           COMMAND ${CMAKE_COMMAND} -E
                           copy_if_different
                             ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib${_target}Static.a
-                            ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
+                            ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_LIBDIR}/lib${_target}.a)
 
   endif ()
 
@@ -559,8 +559,8 @@ function (acg_add_translations _target _languages _sources)
   # Build translations with the application
   add_dependencies(${_target} translations_target_${_target} )
 
-  if (NOT EXISTS ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations)
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations )
+  if (NOT EXISTS ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations)
+    file(MAKE_DIRECTORY ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations )
   endif ()
 
   foreach (_qm ${_qm_files})
@@ -569,7 +569,7 @@ function (acg_add_translations _target _languages _sources)
                         COMMAND ${CMAKE_COMMAND} -E
                         copy_if_different
                           ${_qm}
-                          ${CMAKE_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations/${_qm_name})
+                          ${CMAKE_CGAL_BINARY_DIR}/Build/${ACG_PROJECT_DATADIR}/Translations/${_qm_name})
   endforeach ()
 
   if (NOT ACG_PROJECT_MACOS_BUNDLE OR NOT APPLE)
