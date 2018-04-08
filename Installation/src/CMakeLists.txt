@@ -1,5 +1,4 @@
 function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
-
   if (NOT CGAL_HEADER_ONLY)
   # IMPORTANT: First delete all_files.cpp
   if (EXISTS ${CMAKE_CURRENT_BINARY_DIR}/all_files.cpp)
@@ -16,7 +15,6 @@ function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
       endif()
     endforeach()
   endforeach()
-
   foreach(source ${CGAL_LIBRARY_SOURCE_FILES})
     # It may happen that a file all_files.cpp had been created in-source by
     # a previous in-source build. We certainly do not want to include that
@@ -43,7 +41,6 @@ function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
   else()
     set(rc_file )
   endif()
-
   if (NOT CGAL_HEADER_ONLY)
     add_library (${LIBRARY_NAME}
       ${CMAKE_CURRENT_BINARY_DIR}/all_files.cpp

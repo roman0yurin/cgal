@@ -53,7 +53,6 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "test_TBB.cpp" )
 
   create_link_to_program(CGAL)
- 
   if ( WITH_CGAL_Core )
     create_link_to_program(CGAL_Core)
   endif()
