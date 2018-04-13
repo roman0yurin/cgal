@@ -42,7 +42,7 @@ function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
     set(rc_file )
   endif()
   if (NOT CGAL_HEADER_ONLY)
-    add_library (${LIBRARY_NAME}
+    add_library (${LIBRARY_NAME} STATIC
       ${CMAKE_CURRENT_BINARY_DIR}/all_files.cpp
       ${rc_file}
       ${ADDITIONAL_FILES})
