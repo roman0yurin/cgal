@@ -98,10 +98,10 @@ template <class VertexData>
 class Less_segments {
     typedef VertexData         Vertex_data;
     Vertex_data *m_vertex_data;
-    bool less_than_in_tree(Vertex_index i, Vertex_index j);
+    bool less_than_in_tree(const Vertex_index i, const Vertex_index j) const;
   public:
     Less_segments(Vertex_data *vertex_data) : m_vertex_data(vertex_data) {}
-    bool operator()(Vertex_index i, Vertex_index j);
+    bool operator()(const Vertex_index i, const Vertex_index j) const;
 };
 
 // The data in Edge_data is attached to an edge when it is (about to be)
@@ -196,7 +196,7 @@ class Less_vertex_data {
 public:
     Less_vertex_data(VertexData *vd)
     : m_vertex_data(vd) {}
-    bool operator()(Vertex_index i, Vertex_index j);
+    bool operator()(const Vertex_index i, const Vertex_index j) const;
 };
 
 } // end of namespace i_polygon
@@ -206,7 +206,7 @@ public:
 namespace i_polygon {
 template <class VertexData>
 bool Less_segments<VertexData>::
-operator()(Vertex_index i, Vertex_index j)
+operator()(const Vertex_index i, const Vertex_index j) const
 {
     if (m_vertex_data->edges[j.as_int()].is_in_tree) {
         return less_than_in_tree(i,j);
@@ -217,7 +217,7 @@ operator()(Vertex_index i, Vertex_index j)
 
 template <class VertexData>
 bool Less_segments<VertexData>::
-less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
+less_than_in_tree(const Vertex_index new_edge, const Vertex_index tree_edge) const
 {
     CGAL_polygon_precondition(
        m_vertex_data->edges[tree_edge.as_int()].is_in_tree);
@@ -241,7 +241,7 @@ less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
 
 template <class VertexData>
 bool Less_vertex_data<VertexData>::
-operator()(Vertex_index i, Vertex_index j)
+operator()(const Vertex_index i, const Vertex_index j) const
 {
     return m_vertex_data->less_xy_2(
             m_vertex_data->point(i), m_vertex_data->point(j));
