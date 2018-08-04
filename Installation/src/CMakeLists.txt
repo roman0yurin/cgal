@@ -1,5 +1,4 @@
 function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
-  message("============== CGAL ${LIBRARY_NAME} CGAL_CONFIGURED_PACKAGES ${CGAL_CONFIGURED_PACKAGES} ADDITIONAL_FILES ${ADDITIONAL_FILES}")
 
   if (NOT CGAL_HEADER_ONLY)
   # IMPORTANT: First delete all_files.cpp
@@ -43,8 +42,13 @@ function (collect_cgal_library LIBRARY_NAME ADDITIONAL_FILES)
   else()
     set(rc_file )
   endif()
+  if(WIN32)
+    set(CGAL_LIBRARY_TYPE SHARED)
+  else()
+    set(CGAL_LIBRARY_TYPE STATIC)
+  endif()
   if (NOT CGAL_HEADER_ONLY)
-    add_library (${LIBRARY_NAME} SHARED
+    add_library (${LIBRARY_NAME} ${CGAL_LIBRARY_TYPE}
       ${CMAKE_CURRENT_BINARY_DIR}/all_files.cpp
       ${rc_file}
       ${ADDITIONAL_FILES})
